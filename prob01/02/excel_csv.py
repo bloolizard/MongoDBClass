@@ -41,38 +41,38 @@ def save_file(data, filename):
 		date = data[keys][0]
 		max_load = data[keys][1]
 		values[keys] = {
-			'Year': date[0],
-			'Month':date[1],
-			'Day': date[2],
-			'Hour': date[3],
-			'Max Load': max_load
-		}
+				'Year': date[0],
+				'Month':date[1],
+				'Day': date[2],
+				'Hour': date[3],
+				'Max Load': max_load
+			}
+	with open(filename,'wb') as csvfile:
+		datawriter = csv.writer(csvfile, delimiter='|')
+		datawriter.writerow(['Station','Year','Month','Day','Hour', 'Max Load'])
+		for keys in values:
+			datawriter.writerow([keys, 
+				values[keys]['Year'],
+				values[keys]['Month'],
+				values[keys]['Day'],
+				values[keys]['Hour'],
+				values[keys]['Max Load']]) 
+	return data
 
-
-	with open('eggs.csv', 'wb') as csvfile:
-	    writer = csv.writer(csvfile, delimiter=' ',
-	                            quotechar='|', quoting=csv.QUOTE_MINIMAL)
-	    for key, value in values.items():
-	    	writer.writerow([key, value])
-
-    # YOUR CODE HERE
-
-    
 def test():
 	open_zip(datafile)
    	data = parse_file(datafile)
    	save_file(data, outfile)
-   	print save_file(data, outfile)
-   	# ans = {'FAR_WEST': {'Max Load': "2281.2722140000024", 'Year': "2013", "Month": "6", "Day": "26", "Hour": "17"}}
+   	ans = {'FAR_WEST': {'Max Load': "2281.2722140000024", 'Year': "2013", "Month": "6", "Day": "26", "Hour": "17"}}
     
-   	# fields = ["Year", "Month", "Day", "Hour", "Max Load"]
-   	# with open(outfile) as of:
-    # 	csvfile = csv.DictReader(of, delimiter="|")
-    #    	for line in csvfile:
-    #     	s = line["Station"]
-    #        	if s == 'FAR_WEST':
-    #         	for field in fields:
-    #             	assert ans[s][field] == line[field]
+   	fields = ["Year", "Month", "Day", "Hour", "Max Load"]
+   	with open(outfile) as of:
+   		csvfile = csv.DictReader(of, delimiter="|")
+   		for line in csvfile:
+   			s = line["Station"]
+   			if s == 'FAR_WEST':
+   				for field in fields:
+   					assert ans[s][field] == line[field]
 
         
 test()
